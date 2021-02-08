@@ -32,11 +32,7 @@ $output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000
 
 if($select == false){
     $output['data'] = $decode;
-}elseif($select == 'status'){
-    $output['data'] = $status; 
-    // checks for api's object name for errors or imformation not related to search.
-}
-else{
+}else{
     $output['data'] = $decode[$select];
 }
 
