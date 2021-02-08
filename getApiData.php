@@ -29,8 +29,16 @@ $output['status']['code'] = "200";
 $output['status']['name'] = "ok";
 $output['status']['description'] = "mission saved";
 $output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-$output['data'] = $decode[$select];
 
+if($select == false){
+    $output['data'] = $decode;
+}elseif($select == 'status'){
+    $output['data'] = $status; 
+    // checks for api's object name for errors or imformation not related to search.
+}
+else{
+    $output['data'] = $decode[$select];
+}
 
 
 //$decode['streetSegment'];
