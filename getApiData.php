@@ -6,7 +6,7 @@ $executionStartTime = microtime(true) / 1000;
 
 
 $url='http://api.geonames.org/'.$_REQUEST['api'].$_REQUEST['ident1'].$_REQUEST['val1'].$_REQUEST['ident2'].$_REQUEST['val2'].'&username=gh2021';
-
+$select = $_REQUEST['select'];
     //'http://api.geonames.org/addressJSON?lat=52.358&lng=4.881&username=gh2021';
     
     // find nearby postcodes 'http://api.geonames.org/findNearbyPostalCodesJSON?formatted=true&postalcode=8775&country=CH&radius=10&username=gh2021';
@@ -29,11 +29,9 @@ $output['status']['code'] = "200";
 $output['status']['name'] = "ok";
 $output['status']['description'] = "mission saved";
 $output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-$output['data'] = $decode;
+$output['data'] = $decode[$select];
 
-if(empty ( mixed $output['data'] ) : bool){
-    $decode['address'];
-}
+
 
 //$decode['streetSegment'];
 
