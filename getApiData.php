@@ -30,7 +30,7 @@ $output['status']['name'] = "ok";
 $output['status']['description'] = "mission saved";
 $output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
 
-if($select == false){
+if($select == 'none'){
     $output['data'] = $decode;
 }else{
     $output['data'] = $decode[$select];
