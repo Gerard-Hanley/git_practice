@@ -31,7 +31,7 @@ $output['status']['description'] = "mission saved";
 $output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
 $output['data'] = $decode;
 
-if($_REQUEST['data']===null){
+if(empty ( mixed $_REQUEST['data'] ) : bool){
     $decode['address'];
 }
 
