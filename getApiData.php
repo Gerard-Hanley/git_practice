@@ -23,7 +23,10 @@ $username = '&username=gh2021';
     }
     
     catch(Exception $e){
-        echo "Caught Exception", $e;
+        echo json_encode(array(
+            'success' => false,
+            'reason'  => $e->getMessage(),
+        ));
     }
 
     
