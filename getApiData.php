@@ -19,20 +19,8 @@ $username = '&username=gh2021';
 
             throw new Exception('Field not filled in!');
 
-        }
-    }
-    
-    catch(Exception $e){
-        echo json_encode(array(
-            'success' => false,
-            'reason'  => $e->getMessage(),
-        ));
-    }
-
-    
-
-    finally{
-
+        }else{
+            
 
         $url=$geoBeginning.$api.$identifier1.$value1.$identifier2.$value2.$username;
 
@@ -63,8 +51,23 @@ $username = '&username=gh2021';
             $output['data'] = $decode[$select];
         }
 
+        }
+    }
+    catch(Exception $e){
+
+            $output['status']['code'] = "400";
+            $output['status']['name'] = "error";
+            $output['status']['description'] = "mission saved";
+            $output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
+            $output['status']['message'] = $e->getMessage();
+
+    }
+
+    finally{
         header('Content-Type: application/json; charset=UTF-8');
 
         echo json_encode($output); 
-        }
+    }
+
+
 ?>
