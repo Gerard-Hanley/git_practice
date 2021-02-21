@@ -15,7 +15,7 @@ $username = '&username=gh2021';
 
    try{
 
-        if(empty($api) ||empty($identifier1)||empty($value1)||empty($identifier2)||empty($value2)){
+        if(empty($api) || empty($identifier1) || empty($value1) || empty($identifier2) || empty($value2)){
 
             throw new Exception('Field not filled in!');
 
@@ -23,7 +23,7 @@ $username = '&username=gh2021';
     }
     
     catch(Exception $e){
-        echo $e->getMessage();
+        echo "Caught Exception", $e;
     }
 
     
