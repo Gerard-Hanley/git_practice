@@ -1,8 +1,6 @@
 
 <?php
 
-
-$errorEmpty = false;
 $executionStartTime = microtime(true) / 1000;
 
 $geoBeginning = 'http://api.geonames.org/';
@@ -14,16 +12,25 @@ $value2 = $_REQUEST['val2'];
 $username = '&username=gh2021';
 
 // check for empty fields in form that has been clicked.
-if(empty($api) ||empty($identifier1)||empty($value1)||empty($identifier2)||empty($value2)){
 
-    $output['status']['code'] = "400";
-    $output['status']['name'] = "error";
-    $output['status']['description'] = "mission failed";
-    $output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-    $output['status']['message'] = 'Field not filled in!';
-    $output['status']['error'] = true;
+   try{
+
+        if(empty($api) ||empty($identifier1)||empty($value1)||empty($identifier2)||empty($value2)){
+
+            throw new Exception('Field not filled in!');
+
+        }
+    }
     
-}else{
+    catch(Exception $e){
+        echo $e->getMessage();
+    }
+
+    
+
+    finally{
+
+
         $url=$geoBeginning.$api.$identifier1.$value1.$identifier2.$value2.$username;
 
 
@@ -45,22 +52,16 @@ if(empty($api) ||empty($identifier1)||empty($value1)||empty($identifier2)||empty
         $output['status']['description'] = "mission saved";
         $output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
         $output['status']['message'] = $decode;
-        $output['status']['error'] = false;
 
 
-}
-    
+        if($select == 'none'){
+            $output['data'] = $decode;
+        }else{
+            $output['data'] = $decode[$select];
+        }
 
-    
-    
-    if($select == 'none'){
-        $output['data'] = $decode;
-    }else{
-        $output['data'] = $decode[$select];
-    }
+        header('Content-Type: application/json; charset=UTF-8');
 
-    header('Content-Type: application/json; charset=UTF-8');
-
-    echo json_encode($output); 
-
+        echo json_encode($output); 
+        }
 ?>
