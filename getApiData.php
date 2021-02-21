@@ -2,10 +2,7 @@
 <?php
 
 
-if (isset($_POST['#Submit1'])){
-    //code
-    $output['status']['code'] = "200£££££";
-}
+$errorEmpty = false;
 
 
 
@@ -18,6 +15,20 @@ $value1 = $_REQUEST['val1'];
 $identifier2 = $_REQUEST['ident2']; 
 $value2 = $_REQUEST['val2'];
 $username = '&username=gh2021';
+
+
+if(empty($api) ||empty($identifier1)||empty($value1)){
+
+    echo '<span class="results-message">Fill in all fields</span>';
+    $errorEmpty = true;
+
+
+
+}
+
+
+
+
 
 $url=$geoBeginning.$api.$identifier1.$value1.$identifier2.$value2.$username;
 
