@@ -2,6 +2,11 @@
 <?php
 
 
+if (isset($_POST['#Submit1'])){
+    //code
+    $output['status']['code'] = "200£££££";
+}
+
 
 
 $executionStartTime = microtime(true) / 1000;
@@ -42,8 +47,6 @@ if($select == 'none'){
 }else{
     $output['data'] = $decode[$select];
 }
-
-
 
 header('Content-Type: application/json; charset=UTF-8');
 
