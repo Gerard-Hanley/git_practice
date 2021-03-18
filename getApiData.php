@@ -11,63 +11,60 @@ $identifier2 = $_REQUEST['ident2'];
 $value2 = $_REQUEST['val2'];
 $username = '&username=gh2021';
 
-// check for empty fields in form that has been clicked.
+
 
    try{
-
+        // check for empty fields in form that has been clicked.
         if(empty($api) || empty($identifier1) || empty($value1) || empty($identifier2) || empty($value2)){
 
-            throw new Exception('Field not filled in!');
+                throw new Exception('Field not filled in!');
 
-        }else{
-            
+            }else{
 
-        $url=$geoBeginning.$api.$identifier1.$value1.$identifier2.$value2.$username;
+                $url=$geoBeginning.$api.$identifier1.$value1.$identifier2.$value2.$username;
+                $select = $_REQUEST['select'];
 
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_URL,$url);
 
-        $select = $_REQUEST['select'];
+                $result=curl_exec($ch);
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_URL,$url);
+                curl_close($ch);
 
-        $result=curl_exec($ch);
+                $decode = json_decode($result,true);	
 
-        curl_close($ch);
+                $output['status']['code'] = "200";
+                $output['status']['name'] = "ok";
+                $output['status']['description'] = "mission saved";
+                $output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
+                $output['status']['message'] = $decode;
 
-        $decode = json_decode($result,true);	
+                if($select == 'none'){
+                    $output['data'] = $decode;
+                }else{
+                    $output['data'] = $decode[$select];
+                    
+                }
+                    //check for no data
+                if(empty($output['data'])){
+                    $output['status']['code'] = "201";
+                }
+            }
+        }   
 
-        $output['status']['code'] = "200";
-        $output['status']['name'] = "ok";
-        $output['status']['description'] = "mission saved";
-        $output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-        $output['status']['message'] = $decode;
-
-
-        if($select == 'none'){
-            $output['data'] = $decode;
-        }else{
-            $output['data'] = $decode[$select];
-        }
-
-        }
-    }
     catch(Exception $e){
 
-            $output['status']['code'] = "400";
-            $output['status']['name'] = "error";
-            $output['status']['description'] = "mission saved";
-            $output['status']['returnedIn'] = (microtime(true) - $executionStartTime) / 1000 . " ms";
-            $output['status']['message'] = $e->getMessage();
+        $output = array( "error" => array("code" => $e->getCode(), "message" => $e->getMessage()));
+        $output['status']['name'] = "";
 
     }
 
-    finally{
         header('Content-Type: application/json; charset=UTF-8');
 
         echo json_encode($output); 
-    }
+
 
 
 ?>
